@@ -1,2 +1,13 @@
-if __name__ == "__main__":
-    print("Hello World !")
+from zero_hid import Mouse
+
+
+m = Mouse()
+
+while True:
+    for pos in (
+        ( 100,  100),
+        ( 100, -100),
+        (-100, -100),
+        (-100,  100),
+    ):
+        m.move(*pos)
