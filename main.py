@@ -4,12 +4,13 @@ from time import sleep
 
 m = Mouse()
 
-while True:
-    for pos in (
-        ( 100,  100),
-        ( 100, -100),
-        (-100, -100),
-        (-100,  100),
-    ):
-        m.move(*pos)
-        sleep(0.5)
+with Mouse(absolute = True) as mouse:
+    while True:
+        for pos in (
+            (  0,   0),
+            (100,   0),
+            (100, 100),
+            (  0, 100),
+        ):
+            mouse.move(*pos)
+            sleep(0.5)
