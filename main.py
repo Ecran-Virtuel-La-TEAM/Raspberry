@@ -4,6 +4,9 @@ from time import sleep
 
 m = Mouse()
 
+SCREEN_WIDTH = 2**15
+SCREEN_HEIGHT = 2**15
+
 with Mouse(absolute = True) as mouse:
     while True:
         for pos in (
