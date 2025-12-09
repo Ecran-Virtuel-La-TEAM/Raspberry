@@ -24,7 +24,10 @@ data = [0, 0, 0, 0]
 
 with Serial("/dev/ttyACM0", BAUDS, timeout=1) as serial, open(FILE, "wb") as file:
     while True:
-        single_data = int(serial.read(1))
+        single_data = serial.read(1)
+        if len(single_data) == 0:
+            continue
+        single_data = single_data[0]
         data[channel] = single_data
         
         if channel == 0:
