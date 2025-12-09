@@ -18,9 +18,14 @@ print(f"file {FILE} will take {MAX_FILE_SIZE_KB} kB, do you want to continue ?",
 if input() not in ("y", "yes", ""):
     exit("Bye")
 
-with Serial("/dev/ttyACM0", BAUDS, timeout=5) as serial, open(FILE, "wb") as file:
+with Serial("/dev/ttyACM0", BAUDS, timeout=1) as serial, open(FILE, "wb") as file:
     while True:
-        a0, a1, a2, a3 = serial.read(4)
+        data = serial.read(4)
+
+        if len(data) != 4:
+            continue
+
+        a0, a1, a2, a3 = data
 
         buffer.append(a0)
         if len(buffer) >= BUFFER_SIZE:
@@ -30,6 +35,9 @@ with Serial("/dev/ttyACM0", BAUDS, timeout=5) as serial, open(FILE, "wb") as fil
 
         if file_size_kb > MAX_FILE_SIZE_KB:
             break
+
+    if buffer:
+        file.write(buffer)
 
 # from zero_hid import Mouse
 # from time import sleep
