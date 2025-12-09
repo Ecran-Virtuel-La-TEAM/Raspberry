@@ -18,23 +18,27 @@ print(f"file {FILE} will take {MAX_FILE_SIZE_KB} kB, do you want to continue ?",
 if input() not in ("y", "yes", ""):
     exit("Bye")
 
+
+channel = 0
+data = [0, 0, 0, 0]
+
 with Serial("/dev/ttyACM0", BAUDS, timeout=1) as serial, open(FILE, "wb") as file:
     while True:
-        data = serial.read(4)
+        single_data = serial.read(1)
+        data[channel] = single_data
+        
+        if channel == 0:
+            buffer.append(single_data)
+            if len(buffer) >= BUFFER_SIZE:
+                file.write(buffer)
+                buffer.clear()
+                file_size_kb += 1
 
-        if len(data) != 4:
-            continue
-
-        a0, a1, a2, a3 = data
-
-        buffer.append(a0)
-        if len(buffer) >= BUFFER_SIZE:
-            file.write(buffer)
-            buffer.clear()
-            file_size_kb += 1
-
-        if file_size_kb > MAX_FILE_SIZE_KB:
-            break
+            if file_size_kb > MAX_FILE_SIZE_KB:
+                break
+        
+        channel += 1
+        channel %= 4
 
     if buffer:
         file.write(buffer)

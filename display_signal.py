@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 
-FILE = "A0_data.bin"
+FILE = "/mnt/c/Users/liver/Downloads/A0_data.bin"
 
-with open("A0_data.bin", "rb") as f:
+with open(FILE, "rb") as f:
     data = f.read()
 
 samples = tuple(data)
