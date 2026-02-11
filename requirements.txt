@@ -1,0 +1,2 @@
+pyserial==3.5
+zero-hid==1.0.2
